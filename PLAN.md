@@ -11,7 +11,6 @@
 Build/index.ts
   └─ RuleSourceProcessor (lib/rule-source-processor.ts)
        └─ EnhancedFileOutput (lib/enhanced-file-output.ts)
-            ├─ FileOutput (lib/rules/base.ts)
             └─ createStrategiesForTargets (lib/platform-config.ts)
                  └─ core/output/writing-strategy/{surge,clash,singbox,loon}
 ```
@@ -27,7 +26,7 @@ Build/index.ts
   - 删除 `lib/parse-filter/`（`filters.ts` 641 行、`domainlists.ts`、`hosts.ts`、`line-helpers.ts`、`shared.ts`）
   - 连带移除依赖 `@ghostery/adblocker`
 - [x] **A2. 收敛三层输出抽象**
-  - 现状：`lib/rules/base.ts`(FileOutput) + `core/output/writing-strategy/*`(BaseWriteStrategy) + `lib/enhanced-file-output.ts`(包装层)
+  - 现状：`lib/enhanced-file-output.ts` 独立持有规则状态、完成处理与汇总；`core/output/writing-strategy/*` 保留四个平台 adapter，已移除 `FileOutput` inheritance seam。
   - 砍掉聚合流程未用的变体：`SurgeDomainSet` / `ClashDomainSet` / `ClashIPSet` / `SurgeMitmSgmodule` / `SurgeRuleSetPayload`
   - 目标：只保留聚合器真正用到的 RuleSet 输出路径
 - [x] **A3. 统一许可证与元数据**

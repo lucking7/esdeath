@@ -5,8 +5,6 @@ import type { PathLike } from 'node:fs';
 import fsp from 'node:fs/promises';
 import { appendArrayInPlace } from 'foxts/append-array-in-place';
 
-export type MaybePromise<T> = T | Promise<T>;
-
 export function fastStringCompare(a: string, b: string) {
   const lenA = a.length;
   const lenB = b.length;

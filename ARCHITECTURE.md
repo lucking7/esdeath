@@ -11,16 +11,17 @@ Build/index.ts
   │   ├─ fetchAssets() / loadRules()
   │   └─ shared ruleset publication
   │       └─ EnhancedFileOutput
-  │       ├─ FileOutput
-  │       └─ createStrategiesForTargets()
-  │           ├─ SurgeRuleSet
-  │           ├─ ClashClassicRuleSet
-  │           ├─ LoonRuleSet
-  │           └─ SingboxSource
+  │           └─ createStrategiesForTargets()
+  │               ├─ SurgeRuleSet
+  │               ├─ ClashClassicRuleSet
+  │               ├─ LoonRuleSet
+  │               └─ SingboxSource
   └─ buildPublic()
       ├─ public-index-model
       └─ static HTML renderer
 ```
+
+`EnhancedFileOutput` owns normalization, canonical rule state, finalization, and logical rule summaries. Its state is private; platform writers remain four adapters behind the existing writer seam. `RuleSourceProcessor` retains the same publication interface. Each output instance is finalized once, by either `compile()` or `write()`.
 
 ## Upstream artifacts
 

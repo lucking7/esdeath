@@ -1,6 +1,11 @@
 import process from 'node:process';
+import path from 'node:path';
 import type { Span } from '../trace';
-import { FileOutput } from './rules/base';
+import { HostnameSmolTrie } from '../utils/data-structures/trie';
+import { not, nullthrow } from 'foxts/guard';
+import { createRetrieKeywordFilter as createKeywordFilter } from 'foxts/retrie';
+import type { BaseWriteStrategy, RuleDropSummary } from '../core/output/writing-strategy/base';
+import type { RulePlatform } from '../core/output/rule-support-matrix';
 import { createStrategiesForTargets, normalizeTargets } from './platform-config';
 import type { SupportedPlatform } from './platform-config';
 import type { FileConfig, RuleGroup, SpecialRuleConfig } from './rule-source-types';
@@ -35,8 +40,39 @@ type EnhancedFileConfig = FileConfig & {
   validate?: boolean;
 };
 
-export class EnhancedFileOutput extends FileOutput {
+/**
+ * Normalizes rules, owns canonical state, and delegates platform output to writing strategies.
+ */
+export class EnhancedFileOutput {
   private readonly targets: SupportedPlatform[];
+  private readonly strategies: BaseWriteStrategy[];
+  private readonly span: Span;
+
+  private readonly domainTrie = new HostnameSmolTrie(null);
+  private readonly wildcardTrie = new HostnameSmolTrie(null);
+  private readonly domainKeywords = new Set<string>();
+  private readonly userAgent = new Set<string>();
+  private readonly processName = new Set<string>();
+  private readonly processPath = new Set<string>();
+  private readonly urlRegex = new Set<string>();
+  private readonly ipcidr = new Set<string>();
+  private readonly ipcidrNoResolve = new Set<string>();
+  private readonly ipasn = new Set<string>();
+  private readonly ipasnNoResolve = new Set<string>();
+  private readonly ipcidr6 = new Set<string>();
+  private readonly ipcidr6NoResolve = new Set<string>();
+  private readonly geoip = new Set<string>();
+  private readonly groipNoResolve = new Set<string>();
+  private readonly sourceIpOrCidr = new Set<string>();
+  private readonly sourcePort = new Set<string>();
+  private readonly destPort = new Set<string>();
+  private readonly protocol = new Set<string>();
+  private readonly otherRules: string[] = [];
+
+  private title: string | null = null;
+  private description: string[] | null = null;
+  private readonly date = new Date();
+  private strategiesWritten = false;
 
   private readonly stats = {
     inputDomains: 0,
@@ -57,14 +93,14 @@ export class EnhancedFileOutput extends FileOutput {
 
   constructor(
     span: Span,
-    id: string,
+    private readonly id: string,
     _ruleType: 'domainset' | 'non_ip' | 'ip' | 'mixed' | '',
     targets: SupportedPlatform[] = ['surge'],
     private readonly defaultPolicy: string | null = null,
     config?: Partial<EnhancedFileConfig>,
     outputBaseDir = 'public'
   ) {
-    super(span, id);
+    this.span = span.traceChild('RuleOutput#' + id);
 
     this.config = {
       keepComments: config?.keepComments ?? false,
@@ -325,7 +361,7 @@ export class EnhancedFileOutput extends FileOutput {
    * 完成添加 - 输出统计信息（DEBUG 模式）
    */
   async done() {
-    await super.done();
+    await Promise.resolve(this);
 
     if (process.env.DEBUG) {
       const outputDomains = this.countTrieNodes();
@@ -398,6 +434,218 @@ export class EnhancedFileOutput extends FileOutput {
         this.protocol.size +
         otherRuleCount,
     };
+  }
+
+  withTitle(title: string) {
+    this.title = title;
+    return this;
+  }
+
+  withDescription(description: string[] | readonly string[]) {
+    this.description = description as string[];
+    return this;
+  }
+
+  private writeToStrategies() {
+    if (this.strategiesWritten) {
+      throw new Error('Strategies already written');
+    }
+
+    this.strategiesWritten = true;
+
+    // DOMAIN-KEYWORD covers matching DOMAIN, DOMAIN-SUFFIX, and DOMAIN-WILDCARD rules.
+    const kwfilter = createKeywordFilter(Array.from(this.domainKeywords));
+
+    if (this.strategies.filter(not(false)).length === 0) {
+      throw new Error('No strategies to write ' + this.id);
+    }
+
+    const strategiesLen = this.strategies.length;
+
+    this.domainTrie.dumpWithoutDot((domain, includeAllSubdomain) => {
+      if (kwfilter(domain)) {
+        return;
+      }
+
+      if (RuleLineUtils.isSukkaWatermark(domain)) {
+        return;
+      }
+
+      this.wildcardTrie.whitelist(domain, includeAllSubdomain);
+
+      for (let i = 0; i < strategiesLen; i++) {
+        const strategy = this.strategies[i];
+        if (includeAllSubdomain) {
+          strategy.writeDomainSuffix(domain);
+        } else {
+          strategy.writeDomain(domain);
+        }
+      }
+    }, true);
+
+    // Write the keywords that cover the filtered domain rules.
+    for (let i = 0; i < strategiesLen; i++) {
+      const strategy = this.strategies[i];
+      if (this.domainKeywords.size) {
+        strategy.writeDomainKeywords(this.domainKeywords);
+      }
+
+      if (this.protocol.size) {
+        strategy.writeProtocols(this.protocol);
+      }
+    }
+
+    this.wildcardTrie.dumpWithoutDot(wildcard => {
+      if (kwfilter(wildcard)) {
+        return;
+      }
+
+      for (let i = 0; i < strategiesLen; i++) {
+        const strategy = this.strategies[i];
+        strategy.writeDomainWildcard(wildcard);
+      }
+    }, true);
+
+    const sourceIpOrCidr = Array.from(this.sourceIpOrCidr);
+
+    for (let i = 0; i < strategiesLen; i++) {
+      const strategy = this.strategies[i];
+
+      if (this.userAgent.size) {
+        strategy.writeUserAgents(this.userAgent);
+      }
+      if (this.processName.size) {
+        strategy.writeProcessNames(this.processName);
+      }
+      if (this.processPath.size) {
+        strategy.writeProcessPaths(this.processPath);
+      }
+
+      if (this.sourceIpOrCidr.size) {
+        strategy.writeSourceIpCidrs(sourceIpOrCidr);
+      }
+
+      if (this.sourcePort.size) {
+        strategy.writeSourcePorts(this.sourcePort);
+      }
+      if (this.destPort.size) {
+        strategy.writeDestinationPorts(this.destPort);
+      }
+      if (this.otherRules.length) {
+        strategy.writeOtherRules(this.otherRules);
+      }
+      if (this.geoip.size) {
+        strategy.writeGeoip(this.geoip, false);
+      }
+      if (this.urlRegex.size) {
+        strategy.writeUrlRegexes(this.urlRegex);
+      }
+    }
+
+    let ipcidr: string[] | null = null;
+    let ipcidrNoResolve: string[] | null = null;
+    let ipcidr6: string[] | null = null;
+    let ipcidr6NoResolve: string[] | null = null;
+
+    if (this.ipcidr.size) {
+      ipcidr = mergeCidr(Array.from(this.ipcidr), true);
+    }
+    if (this.ipcidrNoResolve.size) {
+      ipcidrNoResolve = mergeCidr(Array.from(this.ipcidrNoResolve), true);
+    }
+    if (this.ipcidr6.size) {
+      ipcidr6 = Array.from(this.ipcidr6);
+    }
+    if (this.ipcidr6NoResolve.size) {
+      ipcidr6NoResolve = Array.from(this.ipcidr6NoResolve);
+    }
+
+    for (let i = 0; i < strategiesLen; i++) {
+      const strategy = this.strategies[i];
+      // no-resolve
+      if (ipcidrNoResolve) {
+        strategy.writeIpCidrs(ipcidrNoResolve, true);
+      }
+      if (ipcidr6NoResolve) {
+        strategy.writeIpCidr6s(ipcidr6NoResolve, true);
+      }
+      if (this.ipasnNoResolve.size) {
+        strategy.writeIpAsns(this.ipasnNoResolve, true);
+      }
+      if (this.groipNoResolve.size) {
+        strategy.writeGeoip(this.groipNoResolve, true);
+      }
+
+      // triggers DNS resolution
+      if (ipcidr?.length) {
+        strategy.writeIpCidrs(ipcidr, false);
+      }
+      if (ipcidr6?.length) {
+        strategy.writeIpCidr6s(ipcidr6, false);
+      }
+      if (this.ipasn.size) {
+        strategy.writeIpAsns(this.ipasn, false);
+      }
+    }
+  }
+
+  write(): Promise<unknown> {
+    return this.span.traceChildAsync('write all', async childSpan => {
+      await childSpan.traceChildAsync('done', () => this.done());
+
+      childSpan.traceChildSync('write to strategies', () => this.writeToStrategies());
+
+      return childSpan.traceChildAsync('output to disk', async childSpan => {
+        const promises: Array<Promise<void>> = [];
+
+        const descriptions = nullthrow(this.description, 'Missing description');
+
+        for (let i = 0, len = this.strategies.length; i < len; i++) {
+          const strategy = this.strategies[i];
+
+          const basename = (strategy.overwriteFilename || this.id) + '.' + strategy.fileExtension;
+
+          promises.push(
+            childSpan.traceChildAsync('write ' + strategy.name, childSpan =>
+              Promise.resolve(
+                strategy.output(
+                  childSpan,
+                  nullthrow(this.title, 'Missing title'),
+                  descriptions,
+                  this.date,
+                  path.join(
+                    strategy.outputDir,
+                    strategy.type ? path.join(strategy.type, basename) : basename
+                  )
+                )
+              )
+            )
+          );
+        }
+
+        if (promises.length > 0) {
+          await Promise.all(promises);
+        }
+      });
+    });
+  }
+
+  async compile(): Promise<Array<string[] | null>> {
+    await this.done();
+    this.writeToStrategies();
+
+    return this.strategies.reduce<Array<string[] | null>>((acc, strategy) => {
+      acc.push(strategy.content);
+      return acc;
+    }, []);
+  }
+
+  public getRuleDropSummaries(): Partial<Record<RulePlatform, RuleDropSummary>> {
+    const summaries: Partial<Record<RulePlatform, RuleDropSummary>> = {};
+    for (const strategy of [...this.strategies].sort((a, b) => a.platform.localeCompare(b.platform))) {
+      summaries[strategy.platform] = strategy.ruleDropSummary;
+    }
+    return summaries;
   }
 
   /**

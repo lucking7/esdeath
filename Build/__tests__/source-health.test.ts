@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import process from 'node:process';
 import {
   checkSources,
   domainCheckExitCode,
@@ -52,6 +53,31 @@ describe('source health report', () => {
     );
 
     assert.deepEqual(userAgents, [UA_SURGE_MAC, UA_MIRROR]);
+  });
+
+  it('routes proxy-required sources through PROXY_BASE like the build does', async () => {
+    const seenUrls: string[] = [];
+    const fetchFn = ((_input: string | URL | Request, _init?: RequestInit) => {
+      seenUrls.push(typeof _input === 'string' ? _input : (_input instanceof URL ? _input.href : _input.url));
+      return Promise.resolve(new Response(null, { status: 204 }));
+    }) as typeof fetch;
+
+    process.env.PROXY_BASE = 'https://proxy.test/?url=';
+    try {
+      await probeSource(
+        { id: 'primary:a', role: 'primary', requestProfile: 'rule', url: 'https://kelee.one/Tool/Loon/Lsr/AI.lsr' },
+        fetchFn
+      );
+      await probeSource(
+        { id: 'primary:b', role: 'primary', requestProfile: 'rule', url: 'https://rule.example.com/rule.list' },
+        fetchFn
+      );
+    } finally {
+      delete process.env.PROXY_BASE;
+    }
+
+    assert.match(seenUrls[0], /^https:\/\/proxy\.test\/\?url=https:\/\/kelee\.one\//);
+    assert.equal(seenUrls[1], 'https://rule.example.com/rule.list');
   });
 
   it('writes valid JSON atomically to an explicit path', async () => {

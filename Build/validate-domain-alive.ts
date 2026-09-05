@@ -9,6 +9,7 @@ import type { SourceInventoryEntry, SourceRole } from './lib/source-inventory';
 import { ruleGroups, specialRules } from './lib/rule-sources';
 import { MIRROR_GROUPS } from './integration/mirror-sync/mirror-config';
 import { UA_MIRROR, UA_SURGE_MAC } from './constants/user-agents';
+import { applyProxyIfNeeded } from './utils/network/proxy';
 import { writeFileAtomic } from './lib/atomic-file';
 
 export type HealthStatus = 'ok' | 'dead' | 'unknown';
@@ -54,7 +55,10 @@ export async function probeSource(
   fetchFn: typeof fetch = fetch
 ): Promise<ProbeResult> {
   try {
-    const response = await fetchFn(source.url, {
+    // Probe through the same fetch path the build uses: proxy-required hosts
+    // (e.g. kelee.one rejects datacenter IPs with 403) must go through PROXY_BASE
+    // or a healthy upstream is misreported as dead.
+    const response = await fetchFn(applyProxyIfNeeded(source.url), {
       method: 'HEAD',
       redirect: 'follow',
       signal: AbortSignal.timeout(15_000), // eslint-disable-line sukka/unicorn/numeric-separators-style -- 15 seconds

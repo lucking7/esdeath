@@ -34,6 +34,10 @@ jobs:
         id: health
         continue-on-error: true
         run: pnpm run node Build/validate-domain-alive.ts source-health-report.json
+        env:
+          # Mirror the build's fetch path: kelee.one 403s direct requests from
+          # datacenter runner IPs, so probes must use the same Worker proxy.
+          PROXY_BASE: https://cloudflare-proxy.lucking.workers.dev
       - name: Upload health report
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

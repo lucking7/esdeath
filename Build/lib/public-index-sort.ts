@@ -2,29 +2,26 @@ import { TreeFileType } from './tree-dir.ts';
 import type { TreeType } from './tree-dir.ts';
 import { fastStringCompare } from './misc.ts';
 
-export const priorityOrder: Record<'default' | (string & {}), number> = {
-  LICENSE: 0,
-  domainset: 10,
-  non_ip: 20,
-  ip: 30,
+/**
+ * Real public/ output roots in index display order: client ruleset dirs first,
+ * then GeoIP data, then mirrored artifacts. Only names that can actually appear
+ * in public/ belong here — this map drives both index sorting and the
+ * public/_headers ruleset sections. The fallback priority is a separate
+ * constant so it never leaks into Object.keys consumers.
+ */
+export const priorityOrder: Record<string, number> = {
   List: 40,
   Loon: 50,
   Clash: 70,
   'sing-box': 80,
-  GEOIP: 90,
-  Surge: 100,
-  Surfboard: 110,
-  LegacyClashPremium: 111,
-  Script: 130,
+  GeoIP: 90,
   Mock: 140,
-  Assets: 150,
-  Internal: 160,
-  // 低优先级条目（排在最后）
   Modules: 200,
   Scripts: 210,
-  Mirror: 220,
-  default: Number.MAX_VALUE,
+  Mirror: 220
 };
+
+const DEFAULT_PRIORITY = Number.MAX_VALUE;
 
 export function prioritySorter(a: TreeType, b: TreeType) {
   // 1. 类型优先：目录 > 文件
@@ -34,8 +31,8 @@ export function prioritySorter(a: TreeType, b: TreeType) {
 
   // 2. 优先级数值排序
   const priorityDiff =
-    (priorityOrder[a.name] || priorityOrder.default) -
-    (priorityOrder[b.name] || priorityOrder.default);
+    (priorityOrder[a.name] ?? DEFAULT_PRIORITY) -
+    (priorityOrder[b.name] ?? DEFAULT_PRIORITY);
 
   if (priorityDiff !== 0) {
     return priorityDiff;

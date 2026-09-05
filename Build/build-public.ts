@@ -32,9 +32,9 @@ export const buildPublic = task(
   require.main === module,
   __filename
 )(async span => {
-  await span.traceChildAsync('copy rest of the files', async () => {
-    await Promise.all([]);
-  });
+  // Ruleset-text roots get text/plain + noindex; GeoIP serves binary mmdb
+  // payloads and keeps its default content-type.
+  const rulesetHeaderDirs = Object.keys(priorityOrder).filter(name => name !== 'GeoIP');
 
   const pageHtml = await span
     .traceChild('generate index.html')
@@ -48,7 +48,7 @@ export const buildPublic = task(
         '  cache-control: public, max-age=240, stale-while-revalidate=60, stale-if-error=15',
         'https://:project.pages.dev/*',
         '  X-Robots-Tag: noindex',
-        ...Object.keys(priorityOrder).map(
+        ...rulesetHeaderDirs.map(
           name => `/${name}/*\n  content-type: text/plain; charset=utf-8\n  X-Robots-Tag: noindex`
         ),
       ],

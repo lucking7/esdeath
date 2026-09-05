@@ -1,12 +1,19 @@
 import { asyncWriteToStream } from 'foxts/async-write-to-stream';
 import { fastStringArrayJoin } from 'foxts/fast-string-array-join';
 import fs from 'node:fs';
+import readline from 'node:readline';
 import { dirname } from 'node:path';
 import picocolors from 'picocolors';
 import type { Span } from '../trace';
-import { readFileByLine } from '../utils/network/fetch-text-by-line';
 import { writeFile, mkdirp } from './misc';
 import { createCompareSource, fileEqualWithCommentComparator } from 'foxts/compare-source';
+
+function readFileByLine(file: string): AsyncIterable<string> {
+  return readline.createInterface({
+    input: fs.createReadStream(file/* , { encoding: 'utf-8' } */),
+    crlfDelay: Infinity
+  });
+}
 
 const fileEqual = createCompareSource(fileEqualWithCommentComparator);
 

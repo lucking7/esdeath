@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { ruleCardsHtml, treeHtml } from '../build-public';
 import { collectRules } from '../lib/public-index-model';
+import { prioritySorter } from '../lib/public-index-sort';
 import { TreeFileType } from '../lib/tree-dir';
 import type { TreeTypeArray } from '../lib/tree-dir';
 import { escapeHtml } from '../utils/escape-html';
@@ -19,6 +20,32 @@ function dir(name: string, children: TreeTypeArray) {
     children,
   } as const;
 }
+
+describe('prioritySorter (public root ordering)', () => {
+  it('orders known roots by the curated priority, directories first', () => {
+    const names = ['Mirror', 'GeoIP', 'zz-unknown', 'sing-box', 'Loon', 'Clash', 'List', 'Mock', 'Modules', 'Scripts'];
+    const sorted = names
+      .map(name => dir(name, []))
+      .sort(prioritySorter)
+      .map(entry => entry.name);
+    assert.deepEqual(sorted, ['List', 'Loon', 'Clash', 'sing-box', 'GeoIP', 'Mock', 'Modules', 'Scripts', 'Mirror', 'zz-unknown']);
+  });
+
+  it('matches real output roots case-sensitively so GeoIP sorts at its curated slot', () => {
+    // Regression pin: the pre-2026-09 table keyed "GEOIP" while the real output
+    // dir is "GeoIP", silently pushing it to the fallback slot.
+    const entries = [dir('GeoIP', []), dir('sing-box', []), dir('Mirror', [])] as TreeTypeArray;
+    const sorted = [...entries].sort(prioritySorter);
+    assert.deepEqual(sorted.map(e => e.name), ['sing-box', 'GeoIP', 'Mirror']);
+  });
+
+  it('sorts directories before files regardless of name', () => {
+    const entries = [file('a-file', '/a-file'), dir('zz-dir', [])] as TreeTypeArray;
+    const sorted = [...entries].sort(prioritySorter);
+    assert.equal(sorted[0].name, 'zz-dir');
+    assert.equal(sorted[1].name, 'a-file');
+  });
+});
 
 describe('public index HTML escaping', () => {
   it('escapes all HTML metacharacters without double-escaping generated entities', () => {

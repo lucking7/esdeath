@@ -64,17 +64,3 @@ describe('mock/modules CLI decision', () => {
     }
   });
 });
-
-describe('domain availability accounting', () => {
-  it('reports alive, dead, and unknown separately and exits non-zero', async () => {
-    const { checkDomains, domainCheckExitCode } = require('../validate-domain-alive');
-    const result = await checkDomains(['alive.test', 'dead.test', 'unknown.test'], (domain: string) => {
-      if (domain === 'unknown.test') return Promise.reject(new Error('timeout'));
-      return Promise.resolve(domain === 'alive.test');
-    });
-    assert.deepEqual(result.alive, ['alive.test']);
-    assert.deepEqual(result.dead, ['dead.test']);
-    assert.deepEqual(result.unknown, [{ domain: 'unknown.test', error: 'timeout' }]);
-    assert.equal(domainCheckExitCode(result), 1);
-  });
-});

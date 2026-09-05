@@ -2,7 +2,6 @@ import path from 'node:path';
 import process from 'node:process';
 import picocolors from 'picocolors';
 import { task } from './trace';
-import { getErrorMessage } from './lib/misc';
 import { getMethods } from './utils/domain/is-domain-alive';
 import { createSourceInventory } from './lib/source-inventory';
 import type { SourceInventoryEntry, SourceRole } from './lib/source-inventory';
@@ -106,36 +105,8 @@ export async function writeHealthReport(outputPath: string, report: SourceHealth
   await writeFileAtomic(outputPath, `${JSON.stringify(report, null, 2)}\n`, { mode: 0o600 });
 }
 
-// Compatibility with Plan 011's public contract.
-export interface DomainCheckResult {
-  total: number,
-  alive: string[],
-  dead: string[],
-  unknown: Array<{ domain: string, error: string }>
-}
-
-export async function checkDomains(
-  domains: Iterable<string>,
-  checker: (domain: string) => Promise<boolean | { alive: boolean }>
-): Promise<DomainCheckResult> {
-  const result: DomainCheckResult = { total: 0, alive: [], dead: [], unknown: [] };
-  for (const domain of domains) {
-    result.total++;
-    try {
-      // eslint-disable-next-line no-await-in-loop -- compatibility checker is intentionally sequential
-      const checked = await checker(domain);
-      if (typeof checked === 'boolean' ? checked : checked.alive) result.alive.push(domain);
-      else result.dead.push(domain);
-    } catch (error) {
-      result.unknown.push({ domain, error: getErrorMessage(error) });
-    }
-  }
-  return result;
-}
-
-export function domainCheckExitCode(result: DomainCheckResult | SourceHealthReport): number {
-  if ('sources' in result) return result.summary.dead > 0 || result.summary.unknown > 0 ? 1 : 0;
-  return result.dead.length > 0 || result.unknown.length > 0 ? 1 : 0;
+export function domainCheckExitCode(report: SourceHealthReport): number {
+  return report.summary.dead > 0 || report.summary.unknown > 0 ? 1 : 0;
 }
 
 export const validateDomainAlive = task(require.main === module, __filename)(async () => {

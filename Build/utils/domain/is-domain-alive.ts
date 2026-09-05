@@ -1,4 +1,4 @@
-import { createDomainAliveChecker, createRegisterableDomainAliveChecker } from 'domain-alive';
+import { createDomainAliveChecker } from 'domain-alive';
 import { $$fetch } from '../network/fetch-retry';
 
 const dnsServers = [
@@ -47,31 +47,36 @@ const dnsServers = [
 const resultCache = new Map();
 const registerableDomainResultCache = new Map();
 
-export async function getMethods() {
+async function buildMethods() {
   const customWhoisServersMapping = await (await ($$fetch('https://cdn.jsdelivr.net/npm/whois-servers-list@latest/list.json'))).json() as any;
 
-  const isRegisterableDomainAlive = createRegisterableDomainAliveChecker({
-    dns: {
-      dnsServers,
-      maxAttempts: 6
-    },
-    registerableDomainResultCache,
-    whois: {
-      customWhoisServersMapping
-    }
-  });
+  return {
+    isDomainAlive: createDomainAliveChecker({
+      dns: {
+        dnsServers,
+        maxAttempts: 6
+      },
+      registerableDomainResultCache,
+      resultCache,
+      whois: {
+        customWhoisServersMapping
+      }
+    })
+  };
+}
 
-  const isDomainAlive = createDomainAliveChecker({
-    dns: {
-      dnsServers,
-      maxAttempts: 6
-    },
-    registerableDomainResultCache,
-    resultCache,
-    whois: {
-      customWhoisServersMapping
-    }
-  });
+let methodsPromise: ReturnType<typeof buildMethods> | undefined;
 
-  return { isRegisterableDomainAlive, isDomainAlive };
-};
+/**
+ * Memoized so one probe failure does not refetch the whois server list for
+ * every subsequent source; a failed build resets the memo to allow a retry.
+ */
+export function getMethods() {
+  if (!methodsPromise) {
+    methodsPromise = buildMethods().catch((error: unknown) => {
+      methodsPromise = undefined;
+      throw error;
+    });
+  }
+  return methodsPromise;
+}

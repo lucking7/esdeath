@@ -21,11 +21,14 @@ async function main(): Promise<void> {
   if (!reportPath || !statePath || !actionsPath) throw new Error('Usage: update-source-health-state <report> <state> <actions>');
   const report = await readJson<SourceHealthReport>(reportPath, { generatedAt: '', summary: { ok: 0, dead: 0, unknown: 0 }, sources: [] });
   const persisted = await readJson<PersistedState>(statePath, { sources: {} });
-  const actions: Array<{ id: string, action: 'open-or-update' | 'close', observedAt: string }> = [];
+  // The workflow only reads `close` records from actions.json (open/update
+  // decisions are recomputed from state.json deadStreak), so only close
+  // transitions are serialized.
+  const actions: Array<{ id: string, action: 'close', observedAt: string }> = [];
   for (const source of report.sources) {
     const transition = transitionSourceHealth(persisted.sources[source.id], source.id, source.status, report.generatedAt);
     persisted.sources[source.id] = transition.state;
-    if (transition.issueAction !== 'none') actions.push({ id: source.id, action: transition.issueAction, observedAt: report.generatedAt });
+    if (transition.issueAction === 'close') actions.push({ id: source.id, action: 'close', observedAt: report.generatedAt });
   }
   await fs.writeFile(statePath, `${JSON.stringify(persisted, null, 2)}\n`);
   await fs.writeFile(actionsPath, `${JSON.stringify(actions, null, 2)}\n`);

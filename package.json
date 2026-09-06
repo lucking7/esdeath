@@ -52,13 +52,13 @@
   "devDependencies": {
     "@eslint-sukka/node": "^8.9.3",
     "@swc-node/register": "^1.12.1",
-    "@swc/core": "^1.15.47",
-    "@types/node": "^26.2.0",
+    "@swc/core": "^1.16.1",
+    "@types/node": "^26.4.1",
     "@types/punycode": "^2.1.4",
     "eslint": "^9.39.1",
     "eslint-config-sukka": "^8.9.3",
     "eslint-formatter-sukka": "^8.9.3",
-    "knip": "^6.32.2",
+    "knip": "^6.34.0",
     "prettier": "^3.9.6",
     "typescript": "^6.0.2",
     "why-is-node-running": "^3.2.2"

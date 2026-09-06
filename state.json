@@ -1,0 +1,526 @@
+{
+  "sources": {
+    "mirror-extra:https://raw.githubusercontent.com/NSRingo/Siri/dev/debug/Siri.V2.beta.sgmodule": {
+      "id": "mirror-extra:https://raw.githubusercontent.com/NSRingo/Siri/dev/debug/Siri.V2.beta.sgmodule",
+      "deadStreak": 40,
+      "status": "dead",
+      "updatedAt": "2026-09-03T08:08:13.898Z"
+    },
+    "mirror-extra:https://raw.githubusercontent.com/NSRingo/Siri/dev/debug/Siri.V2.macOS.beta.sgmodule": {
+      "id": "mirror-extra:https://raw.githubusercontent.com/NSRingo/Siri/dev/debug/Siri.V2.macOS.beta.sgmodule",
+      "deadStreak": 40,
+      "status": "dead",
+      "updatedAt": "2026-09-03T08:08:13.898Z"
+    },
+    "mirror-repository:https://api.github.com/repos/BiliUniverse/ADBlock/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/BiliUniverse/ADBlock/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/BiliUniverse/Enhanced/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/BiliUniverse/Enhanced/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/BiliUniverse/Global/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/BiliUniverse/Global/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/BiliUniverse/Redirect/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/BiliUniverse/Redirect/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/DualSubs/Netflix/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/DualSubs/Netflix/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/DualSubs/Spotify/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/DualSubs/Spotify/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/DualSubs/Universal/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/DualSubs/Universal/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/DualSubs/YouTube/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/DualSubs/YouTube/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/NSRingo/GeoServices/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/NSRingo/GeoServices/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/NSRingo/News/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/NSRingo/News/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/NSRingo/Siri/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/NSRingo/Siri/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/NSRingo/Testflight/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/NSRingo/Testflight/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/NSRingo/TV/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/NSRingo/TV/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "mirror-repository:https://api.github.com/repos/NSRingo/WeatherKit/releases/latest": {
+      "id": "mirror-repository:https://api.github.com/repos/NSRingo/WeatherKit/releases/latest",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Streaming/!CN.list": {
+      "id": "primary:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Streaming/!CN.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Streaming/CN.list": {
+      "id": "primary:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Streaming/CN.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://kelee.one/Tool/Loon/Lsr/ChinaDownloadCDN.lsr": {
+      "id": "primary:https://kelee.one/Tool/Loon/Lsr/ChinaDownloadCDN.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://kelee.one/Tool/Loon/Lsr/InternationalDownloadCDN.lsr": {
+      "id": "primary:https://kelee.one/Tool/Loon/Lsr/InternationalDownloadCDN.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://kelee.one/Tool/Loon/Lsr/SpeedtestChina.lsr": {
+      "id": "primary:https://kelee.one/Tool/Loon/Lsr/SpeedtestChina.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr": {
+      "id": "primary:https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://kelee.one/Tool/Loon/Lsr/TikTok.lsr": {
+      "id": "primary:https://kelee.one/Tool/Loon/Lsr/TikTok.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://raw.githubusercontent.com/missuo/ASN-China/main/ASN.China.list": {
+      "id": "primary:https://raw.githubusercontent.com/missuo/ASN-China/main/ASN.China.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/BiliBili.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/BiliBili.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/Disney.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/Disney.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/GitHub.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/GitHub.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/Google.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/Google.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/Netflix.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/Netflix.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/PrimeVideo.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/PrimeVideo.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/Spotify.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/Spotify.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/WeChat.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/WeChat.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://rule.kelee.one/Loon/YouTube.lsr": {
+      "id": "primary:https://rule.kelee.one/Loon/YouTube.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/domainset/speedtest.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/domainset/speedtest.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/ip/china_ip_ipv6.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/ip/china_ip_ipv6.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/ip/china_ip.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/ip/china_ip.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/global.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/global.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/my_git.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/my_git.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/my_plus.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/my_plus.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/my_proxy.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/my_proxy.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/my_tw.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/my_tw.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/my_us.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/my_us.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/reject-drop.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/reject-drop.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/reject-no-drop.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/reject-no-drop.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "primary:https://ruleset.skk.moe/List/non_ip/stream_biliintl.conf": {
+      "id": "primary:https://ruleset.skk.moe/List/non_ip/stream_biliintl.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/AI.list": {
+      "id": "special-source:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/AI.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Reject/Advertising.list": {
+      "id": "special-source:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Reject/Advertising.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Reject/Malicious.list": {
+      "id": "special-source:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Reject/Malicious.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Reject/Tracking.list": {
+      "id": "special-source:https://github.com/ConnersHua/RuleGo/raw/master/Surge/Ruleset/Extra/Reject/Tracking.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://github.com/dler-io/Rules/raw/main/Surge/Surge%203/Provider/AI%20Suite.list": {
+      "id": "special-source:https://github.com/dler-io/Rules/raw/main/Surge/Surge%203/Provider/AI%20Suite.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://github.com/kefengyoyo/own/raw/main/Emby-P.list": {
+      "id": "special-source:https://github.com/kefengyoyo/own/raw/main/Emby-P.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/amazon.list": {
+      "id": "special-source:https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/amazon.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://github.com/Repcz/Tool/raw/X/Surge/Custom/Emby.list": {
+      "id": "special-source:https://github.com/Repcz/Tool/raw/X/Surge/Custom/Emby.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://kelee.one/Tool/Loon/Lsr/AI.lsr": {
+      "id": "special-source:https://kelee.one/Tool/Loon/Lsr/AI.lsr",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.json": {
+      "id": "special-source:https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.json",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Surge.list": {
+      "id": "special-source:https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Surge.list",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/domainset/apple_cdn.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/domainset/apple_cdn.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/domainset/cdn.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/domainset/cdn.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/domainset/download.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/domainset/download.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/domainset/icloud_private_relay.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/domainset/icloud_private_relay.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/domainset/reject_extra.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/domainset/reject_extra.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/domainset/reject.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/domainset/reject.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/apple_services.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/apple_services.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/cdn.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/cdn.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/domestic.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/domestic.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/lan.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/lan.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/neteasemusic.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/neteasemusic.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/reject.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/reject.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/stream.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/stream.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/telegram_asn.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/telegram_asn.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/ip/telegram.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/ip/telegram.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/ai.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/ai.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/apple_cn.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/apple_cn.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/apple_services.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/apple_services.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/cdn.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/cdn.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/direct.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/direct.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/domestic.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/domestic.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/download.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/download.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/lan.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/lan.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/microsoft_cdn.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/microsoft_cdn.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/microsoft.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/microsoft.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/my_direct.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/my_direct.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/my_reject.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/my_reject.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/neteasemusic.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/neteasemusic.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/reject.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/reject.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/stream.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/stream.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    },
+    "special-source:https://ruleset.skk.moe/List/non_ip/telegram.conf": {
+      "id": "special-source:https://ruleset.skk.moe/List/non_ip/telegram.conf",
+      "deadStreak": 0,
+      "status": "ok",
+      "updatedAt": "2026-09-06T07:58:27.102Z"
+    }
+  }
+}

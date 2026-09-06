@@ -46,8 +46,8 @@ importers:
         specifier: ^8.7.0
         version: 8.7.0
       undici-cache-store-better-sqlite3:
-        specifier: ^1.1.0
-        version: 1.1.0(undici@8.7.0)
+        specifier: ^1.1.1
+        version: 1.1.1(undici@8.7.0)
       yaml:
         specifier: ^2.9.0
         version: 2.9.0
@@ -936,6 +936,10 @@ packages:
     resolution: {integrity: sha512-dq9AtApgg5PGFtBzPFSBl3HZQjHok5gaQCM6zh2Yk0aSmDCs1CbnVI8/HgASQkNKsWFpseIO9beg5xxpYhbIfA==}
     engines: {node: 20.x || 22.x || 23.x || 24.x || 25.x || 26.x}
 
+  better-sqlite3@13.0.3:
+    resolution: {integrity: sha512-RbOBxmLBG8uvFUc15X9+9SFemKcQ0WBuISBVkpuiaUB2qblC8UWlHEjdWVoZ8AdhSwmoEgsiXKfopX0CQxaACQ==}
+    engines: {node: '>=22'}
+
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
 
@@ -1222,6 +1226,10 @@ packages:
   fast-fifo@1.3.2:
     resolution: {integrity: sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==}
 
+  fast-fnv1a@1.0.0:
+    resolution: {integrity: sha512-Y7iaFmz24pNJX+nqXgDuyHYFTfV9XPWJRfqp0hlG0Xuz1vKnelwLwvmKkbvVVvp5WzYWnrovBTLdk2PWkOYzCg==}
+    engines: {node: ^22.15.0 || ^23.8.0 || >=24.0.0}
+
   fast-json-stable-stringify@2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
 
@@ -1258,6 +1266,10 @@ packages:
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
 
+  fnv1a52@1.0.0:
+    resolution: {integrity: sha512-dUnV6Uok578HuGYTC/EM0LqeXewXBCHsh/kmLkdcqN1zgSy7K3gCIrshPBS5JwW20XSaRv4Vnz7z8lMjOV8jWw==}
+    engines: {node: '>=18.0.0'}
+
   formatly@0.7.0:
     resolution: {integrity: sha512-7CXJtIIA0zy/u12StsYk25qVKxvdLA2ep2sTNxK3ov0mGNIIDqIvAXDSgTnAfDJFsPfWjuz0WjfYSdpvnLA5Tg==}
     engines: {node: '>=18.3.0'}
@@ -1265,6 +1277,9 @@ packages:
 
   foxts@5.8.0:
     resolution: {integrity: sha512-lVNbi34bVy2ECGNzH8BZ/LGT+ROh0xPBAQsXuuq4HiJ57rKSWiTYWEGNY+eObJWdA38aa51xIFXntMeiMRyYKQ==}
+
+  foxts@5.9.1:
+    resolution: {integrity: sha512-NrIHGlf4LZGTjjGlVi3gmMbtvC4871SFUflu9yb8X91FYppAk+WMiYS6ZlaEgkPqAkgIGNeq+Y5YCL80GL6v8g==}
 
   fs-constants@1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
@@ -1427,6 +1442,10 @@ packages:
   node-abi@3.92.0:
     resolution: {integrity: sha512-KdHvFWZjEKDf0cakgFjebl371GPsISX2oZHcuyKqM7DtogIsHrqKeLTo8wBHxaXRAQlY2PsPlZmfo+9ZCxEREQ==}
     engines: {node: '>=10'}
+
+  node-addon-api@8.9.2:
+    resolution: {integrity: sha512-VijLXbi3UACN69I0JVXJsX4tjACjNoQDgv2gTF6sx2wWEi8tkSg2eX8p5gSIFi8z2+DL3oHmY6OyKce38SDolg==}
+    engines: {node: ^18 || ^20 || >= 21}
 
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
@@ -1676,8 +1695,8 @@ packages:
     resolution: {integrity: sha512-FoSOKV7NEofQSkAefMVHam4ZPKYMxjAydxiV72UFEDNV/YofxjGfiZ2A9pZjdL/lRJzTjcu4PABo1JYJX8N5iQ==}
     engines: {node: '>=14'}
 
-  undici-cache-store-better-sqlite3@1.1.0:
-    resolution: {integrity: sha512-8x10TW1i+fp3oNX4r3Yg1Kxc5H0LH+C9ax1f807s/5kmq1Ynt4ihMipddag+rT6Z5km4v0MMgE2/4vNwmUFamQ==}
+  undici-cache-store-better-sqlite3@1.1.1:
+    resolution: {integrity: sha512-TBIevg8YUzSJwZwhlGYhAKrdBEf4GInF+L/jn4m3EPZP56gWDjTni7yjaeJsGl4E1jDA4BWiNyt0TqOBIhS2uw==}
     peerDependencies:
       undici: '>=7.0.0'
 
@@ -2453,6 +2472,10 @@ snapshots:
       bindings: 1.5.0
       prebuild-install: 7.1.3
 
+  better-sqlite3@13.0.3:
+    dependencies:
+      node-addon-api: 8.9.2
+
   bindings@1.5.0:
     dependencies:
       file-uri-to-path: 1.0.0
@@ -2704,7 +2727,7 @@ snapshots:
       '@typescript-eslint/types': 8.60.0
       '@typescript-eslint/utils': 8.60.0(eslint@9.39.1(jiti@2.7.0))(typescript@6.0.3)
       eslint: 9.39.1(jiti@2.7.0)
-      foxts: 5.8.0
+      foxts: 5.9.1
       typescript: 6.0.3
     transitivePeerDependencies:
       - supports-color
@@ -2803,6 +2826,8 @@ snapshots:
 
   fast-fifo@1.3.2: {}
 
+  fast-fnv1a@1.0.0: {}
+
   fast-json-stable-stringify@2.1.0: {}
 
   fast-levenshtein@2.0.6: {}
@@ -2833,12 +2858,19 @@ snapshots:
 
   flatted@3.3.3: {}
 
+  fnv1a52@1.0.0: {}
+
   formatly@0.7.0:
     dependencies:
       fd-package-json: 2.0.0
       package-manager-detector: 1.8.0
 
   foxts@5.8.0: {}
+
+  foxts@5.9.1:
+    dependencies:
+      fast-fnv1a: 1.0.0
+      fnv1a52: 1.0.0
 
   fs-constants@1.0.0: {}
 
@@ -2984,6 +3016,8 @@ snapshots:
   node-abi@3.92.0:
     dependencies:
       semver: 7.8.5
+
+  node-addon-api@8.9.2: {}
 
   once@1.4.0:
     dependencies:
@@ -3294,10 +3328,10 @@ snapshots:
 
   unbash@4.0.11: {}
 
-  undici-cache-store-better-sqlite3@1.1.0(undici@8.7.0):
+  undici-cache-store-better-sqlite3@1.1.1(undici@8.7.0):
     dependencies:
-      better-sqlite3: 12.11.1
-      foxts: 5.8.0
+      better-sqlite3: 13.0.3
+      foxts: 5.9.1
       undici: 8.7.0
 
   undici-types@8.3.0: {}

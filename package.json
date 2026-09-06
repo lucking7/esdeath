@@ -40,7 +40,7 @@
     "ci-info": "^4.4.0",
     "domain-alive": "^0.1.23",
     "fast-cidr-tools": "^0.3.2",
-    "foxts": "^5.8.0",
+    "foxts": "^5.9.1",
     "json-stringify-pretty-compact": "3.0.0",
     "picocolors": "^1.1.1",
     "punycode": "^2.3.1",

@@ -36,7 +36,7 @@
   "author": "lucking7",
   "license": "AGPL-3.0",
   "dependencies": {
-    "better-sqlite3": "^12.11.1",
+    "better-sqlite3": "^13.0.3",
     "ci-info": "^4.4.0",
     "domain-alive": "^0.1.23",
     "fast-cidr-tools": "^0.3.2",

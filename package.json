@@ -38,7 +38,7 @@
   "dependencies": {
     "better-sqlite3": "^12.11.1",
     "ci-info": "^4.4.0",
-    "domain-alive": "^0.1.23",
+    "domain-alive": "^0.1.25",
     "fast-cidr-tools": "^0.3.2",
     "foxts": "^5.8.0",
     "json-stringify-pretty-compact": "3.0.0",

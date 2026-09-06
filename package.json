@@ -57,7 +57,7 @@
     "@types/punycode": "^2.1.4",
     "eslint": "^9.39.1",
     "eslint-config-sukka": "^8.9.3",
-    "eslint-formatter-sukka": "^8.9.3",
+    "eslint-formatter-sukka": "^9.0.1",
     "knip": "^6.34.0",
     "prettier": "^3.9.6",
     "typescript": "^6.0.2",

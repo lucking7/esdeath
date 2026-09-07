@@ -84,31 +84,6 @@ describe('module merger engine', () => {
 
     assert.deepEqual(hostnames, ['a.com', 'b.com', 'c.com']);
   });
-
-  it('injects script-toggle placeholders before script lines and preserves blanks/comments', () => {
-    const merger = new ModuleMerger(options);
-    const content = `# toggle comment
-
-http-response ^https://example/api script-path=example.js, requires-body=1, tag=Demo
-skip-this-line`;
-
-    merger.addSection({
-      type: 'Script',
-      header: 'Demo',
-      content,
-    });
-    merger.setScriptToggleMap({ Demo: 'Demo' });
-
-    const { sections } = merger.merge();
-    const scriptContent = sections.get('Script');
-
-    assert.ok(scriptContent);
-    assert.equal(scriptContent.includes('# toggle comment'), true);
-    assert.equal(scriptContent.includes('\n\n'), true);
-    assert.equal(scriptContent.includes('{{{Demo}}}http-response ^https://example/api'), true);
-    assert.equal(scriptContent.includes('skip-this-line'), true);
-    assert.equal(scriptContent.includes('{{{Demo}}}skip-this-line'), false);
-  });
 });
 
 describe('module merger integration', () => {
@@ -157,7 +132,6 @@ output:
       const result = await mergeModules(path.join(tempDir, 'merge-config.yaml'));
 
       assert.equal(result.stats.modulesProcessed, 2);
-      assert.deepEqual(result.failures, []);
       assert.equal(result.sgmodule.includes('[Rule]'), true);
       assert.equal(result.sgmodule.includes('[MITM]'), true);
       assert.equal(result.rulelist.includes('DOMAIN,example.com'), true);

@@ -137,8 +137,6 @@ export interface MergeResult {
   rulelist: string,
   /** 统计信息 */
   stats: MergeStats,
-  /** 加载失败项 */
-  failures: ModuleLoadError[]
 }
 
 /**
@@ -147,8 +145,6 @@ export interface MergeResult {
 interface MergeStats {
   /** 处理的模块数量 */
   modulesProcessed: number,
-  /** 失败的模块数量 */
-  modulesFailed: number,
   /** 提取的 Section 数量 */
   sectionsExtracted: number,
   /** 去重的 hostname 数量 */

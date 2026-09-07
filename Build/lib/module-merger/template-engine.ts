@@ -19,16 +19,11 @@ export const TemplateEngine = {
     template: string,
     data: Record<string, string | number | boolean | null | undefined>
   ): string {
-    let result = template;
-
-    // 替换所有占位符
-    for (const [key, value] of Object.entries(data)) {
-      // 支持两种格式: {{key}} 和 {{{key}}}
-      const placeholder = new RegExp(String.raw`\{\{\{${key}\}\}\}|\{\{${key}\}\}`, 'g');
-      result = result.replace(placeholder, String(value ?? ''));
-    }
-
-    return result;
+    // 单次替换，避免解释正文中的 $& / $$，或再次展开插入的 Surge 参数。
+    return template.replaceAll(/{{{([^{}]+)}}}|{{([^{}]+)}}/g, (match, triple: string | undefined, double: string | undefined) => {
+      const key = triple ?? double!;
+      return Object.hasOwn(data, key) ? String(data[key] ?? '') : match;
+    });
   },
 
   /**

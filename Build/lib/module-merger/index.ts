@@ -3,11 +3,10 @@
  */
 
 import process from 'node:process';
-import fs from 'node:fs/promises';
-import path from 'node:path';
 import picocolors from 'picocolors';
 import type { MergeResult, TemplateData, MergeRuntimeOptions, ModuleSource, SectionType } from './types';
-import { SectionParser } from './section-parser';
+import { prepareModuleContent } from './module-content';
+import { writeModuleOutputs } from './output-writer';
 import { ModuleMerger } from './merger';
 import { TemplateEngine } from './template-engine';
 import { loadMergeConfig } from './config-loader';
@@ -44,6 +43,7 @@ export async function mergeModules(
 
   // 1.1 根据运行时选项筛选需要参与合并的模块
   const selectedModules = _applyModuleSelection(config.modules, runtimeOptions);
+  if (!selectedModules.length) throw new Error('没有选中任何模块，拒绝生成空产物');
   console.log(
     picocolors.gray(
       `  - Modules selected for merge: ${selectedModules.length} / ${config.modules.length}`
@@ -60,15 +60,24 @@ export async function mergeModules(
   failures.forEach(failure => {
     console.log(picocolors.red(`  ✗ ${failure.header}: ${failure.reason}`));
   });
+  if (failures.length) {
+    throw new Error(`模块加载失败，未写入输出: ${failures.map(failure => `${failure.header}: ${failure.reason}`).join('; ')}`);
+  }
 
   const merger = new ModuleMerger(config.options);
   const scriptHeaders = new Set<string>();
+  const sourceByHeader = new Map(selectedModules.map(source => [source.header, source]));
+  const sourceArguments = new Map<string, string>();
+  const sourceDescriptions: string[] = [];
 
   loaded.forEach(module => {
-    const sections = SectionParser.parse(module.content, {
-      header: module.header,
-      stripComments: config.options.stripComments,
-    });
+    const toggleName = sourceByHeader.get(module.header)!.scriptToggle === false ? undefined : module.header.trim();
+    const { sections, defaults, argumentsDesc } = prepareModuleContent(module, config.options.stripComments, toggleName);
+    for (const [name, value] of defaults) {
+      if (sourceArguments.has(name)) throw new Error(`参数名称冲突: ${name}`);
+      sourceArguments.set(name, value);
+    }
+    if (argumentsDesc) sourceDescriptions.push(String.raw`${module.header} 源参数\n${argumentsDesc}`);
     sections.forEach(section => {
       if (section.type.toLowerCase() === 'script') {
         scriptHeaders.add(module.header);
@@ -78,10 +87,6 @@ export async function mergeModules(
   });
 
   const scriptToggleInfo = _buildScriptToggleInfo(selectedModules, scriptHeaders);
-  const scriptToggleMap = Object.fromEntries(
-    scriptToggleInfo.map(info => [info.header, info.argumentName] as const)
-  );
-  merger.setScriptToggleMap(scriptToggleMap);
 
   // 3. 合并
   console.log(picocolors.cyan('\nMerging sections...'));
@@ -90,13 +95,18 @@ export async function mergeModules(
   // 4. 构建输出内容
   console.log(picocolors.cyan('\nBuilding output...'));
 
-  const { argumentsLine, argumentsDesc } = _buildArgumentsLines(scriptToggleInfo);
+  const toggles = _buildArgumentsLines(scriptToggleInfo);
+  for (const info of scriptToggleInfo) {
+    if (sourceArguments.has(info.argumentName)) throw new Error(`脚本开关与源参数名称冲突: ${info.argumentName}`);
+  }
+  const argumentEntries = [toggles.argumentsLine, ...Array.from(sourceArguments, ([name, value]) => `${name}:${value}`)];
+  const argumentsLine = argumentEntries.filter(Boolean).join(',');
+  const argumentsDesc = [toggles.argumentsDesc, ...sourceDescriptions].filter(Boolean).join(String.raw`\n\n`);
 
   // 4.1 构建模板头部额外信息（arguments 等，仅在有脚本开关时才添加）
   const headerExtraParts: string[] = [];
   if (argumentsLine) {
-    headerExtraParts.push(`#!arguments = ${argumentsLine}`);
-    headerExtraParts.push(`#!arguments-desc = ${argumentsDesc}`);
+    headerExtraParts.push(`#!arguments = ${argumentsLine}`, `#!arguments-desc = ${argumentsDesc}`);
   }
 
   // 4.2 动态构建 sections body
@@ -124,6 +134,7 @@ export async function mergeModules(
   if (hostnames.length > 0) {
     sectionParts.push(`[MITM]\nhostname = %APPEND% ${hostnames.join(', ')}`);
   }
+  if (!sectionParts.length) throw new Error('没有可输出的 section，拒绝生成空产物');
 
   // 检查是否有未被模板使用的 section 类型
   for (const [type] of sections) {
@@ -153,6 +164,9 @@ export async function mergeModules(
   };
 
   const sgmodule = TemplateEngine.render(template, templateData);
+  if (argumentsLine && !sgmodule.includes(`#!arguments = ${argumentsLine}`)) {
+    throw new Error('模板必须输出 header_extra 以保留模块参数');
+  }
 
   // 5. 生成 rulelist（去除策略组，仅保留规则类型 + 匹配值 + 参数）
   const ruleContent = sections.get('Rule') || '';
@@ -166,10 +180,10 @@ export async function mergeModules(
     console.log(picocolors.yellow('\nDRY RUN: 输出文件未写入磁盘'));
   } else {
     console.log(picocolors.cyan('\nWriting output files...'));
-    await fs.mkdir(path.dirname(config.output.sgmodule), { recursive: true });
-
-    await fs.writeFile(config.output.sgmodule, sgmodule, 'utf-8');
-    await fs.writeFile(config.output.rulelist, rulelist, 'utf-8');
+    await writeModuleOutputs([
+      { path: config.output.sgmodule, content: sgmodule },
+      { path: config.output.rulelist, content: rulelist },
+    ]);
 
     console.log(picocolors.green(`  ✓ Saved: ${config.output.sgmodule}`));
     console.log(picocolors.green(`  ✓ Saved: ${config.output.rulelist}`));
@@ -187,10 +201,8 @@ export async function mergeModules(
     rulelist,
     stats: {
       modulesProcessed: loaded.length,
-      modulesFailed: failures.length,
       ...stats,
     },
-    failures,
   };
 }
 
@@ -215,6 +227,10 @@ function _applyModuleSelection(
   const onlyKeys = (runtimeOptions.only ?? []).map(_normalizeRuntimeKey);
   const enableKeys = (runtimeOptions.enable ?? []).map(_normalizeRuntimeKey);
   const disableKeys = (runtimeOptions.disable ?? []).map(_normalizeRuntimeKey);
+  const availableKeys = new Set(modules.map(_getModuleKey));
+  for (const key of [...onlyKeys, ...enableKeys, ...disableKeys]) {
+    if (!availableKeys.has(key)) throw new Error(`未知模块 key: ${key}`);
+  }
 
   const onlySet = onlyKeys.length ? new Set(onlyKeys) : null;
   const enableSet = new Set(enableKeys);
@@ -296,7 +312,8 @@ function _buildArgumentsLines(scriptToggles: ScriptToggleInfo[]): {
 
   const argumentsLine = scriptToggles
     .map(info => {
-      const defaultValue = info.defaultOn ? '1' : '#';
+      // 启用时必须为空，才能与源模块自己的 # 注释开关组合。
+      const defaultValue = info.defaultOn ? '' : '#';
       return `${info.argumentName}:${defaultValue}`;
     })
     .join(',');
@@ -304,7 +321,7 @@ function _buildArgumentsLines(scriptToggles: ScriptToggleInfo[]): {
   const argumentsDesc = scriptToggles
     .map(
       info =>
-        String.raw`${info.argumentName}: ${info.header}脚本开关\n将 # 改为任意值即可启用/禁用该模块相关脚本`
+        String.raw`${info.argumentName}: ${info.header}脚本开关\n删除 #（留空）启用，填入 # 禁用；源模块自身的脚本开关仍然有效`
     )
     .join(String.raw`\n\n`);
 

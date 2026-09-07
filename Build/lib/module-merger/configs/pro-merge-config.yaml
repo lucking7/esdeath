@@ -68,6 +68,9 @@ modules:
   # 腾讯视频去广告
   - url: "file://public/Modules/Converted/腾讯视频去广告.sgmodule"
     header: "腾讯视频去广告"
+    # 上游已停止维护，依赖 CommonScript/replace-body.js 返回 404（2026-09-07）。
+    # 修复依赖并恢复转换产物后才重新启用；显式 --enable 仍会严格检查文件。
+    enabledByDefault: false
 
   # 财新去广告
   - url: "file://public/Modules/Converted/财新去广告.sgmodule"
@@ -226,7 +229,7 @@ modules:
     scriptDefaultOn: true
 
   # 滴滴出行去广告
-  - url: "file://public/Modules/Converted/滴滴出行去广告.sgmodule"
+  - url: "file://public/Modules/Converted/滴滴去广告.sgmodule"
     header: "滴滴出行去广告"
     scriptDefaultOn: true
 

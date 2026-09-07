@@ -49,6 +49,9 @@ export async function loadMergeConfig(configPath: string): Promise<LoadedMergeCo
     rulelist: resolveRelative(parsed.output.rulelist, baseDir),
     template: resolveRelative(parsed.output.template, baseDir)
   };
+  if (normalizedOutput.sgmodule === normalizedOutput.rulelist) {
+    throw new Error('output.sgmodule 和 output.rulelist 必须是不同文件');
+  }
 
   const config: MergeConfig = {
     ...parsed,
@@ -96,5 +99,20 @@ function validateBasicFields(config: MergeConfigFile): asserts config is Validat
   const invalidSource = modules.find(source => !source.url || !source.header);
   if (invalidSource) {
     throw new Error(`模块 ${invalidSource.header} 缺少 url 或 header`);
+  }
+
+  const headers = new Set<string>();
+  const keys = new Set<string>();
+  for (const source of modules) {
+    const header = source.header.trim();
+    const key = (source.key ?? source.header).trim();
+    if (!header || !key || /[\n\r,:{}]/.test(header)) {
+      throw new Error(`模块名称或 key 无效: ${source.header}`);
+    }
+    if (headers.has(header) || keys.has(key)) {
+      throw new Error(`模块 header 和 key 必须唯一: ${source.header}`);
+    }
+    headers.add(header);
+    keys.add(key);
   }
 }

@@ -21,22 +21,11 @@ export class ModuleMerger {
 
   private sectionsExtracted = 0;
 
-  /** 每个来源模块(header) 对应的脚本开关参数名 */
-  private scriptToggleByHeader: Record<string, string> = {};
-
   /**
    * 构造函数
    * @param options 合并选项
    */
   constructor(private readonly options: MergeOptions) {}
-
-  /**
-   * 设置脚本开关参数映射
-   * @param mapping header 到参数名的映射
-   */
-  setScriptToggleMap(mapping: Record<string, string>): void {
-    this.scriptToggleByHeader = mapping;
-  }
 
   /**
    * 添加解析后的 Section
@@ -67,7 +56,7 @@ export class ModuleMerger {
 
     // 合并各个类型的 Section
     for (const [type, sections] of this.sections) {
-      const content = this.mergeSections(sections, type);
+      const content = this.mergeSections(sections);
       merged.set(type, content);
     }
 
@@ -80,12 +69,10 @@ export class ModuleMerger {
   /**
    * 合并同类型的 Sections
    * @param sections Section 数组
-   * @param type Section 类型
    * @returns 合并后的内容
    */
-  private mergeSections(sections: ParsedSection[], type: SectionType): string {
+  private mergeSections(sections: ParsedSection[]): string {
     const parts: string[] = [];
-    const typeKey = type.toLowerCase();
 
     for (const section of sections) {
       // 添加分隔符
@@ -94,18 +81,7 @@ export class ModuleMerger {
         parts.push(divider);
       }
 
-      // 添加内容
-      let content = section.content;
-
-      // 对 Script Section 应用脚本开关参数
-      if (typeKey === 'script' && section.header) {
-        const toggleName = this.scriptToggleByHeader[section.header];
-        if (toggleName) {
-          content = this.applyScriptToggle(content, toggleName);
-        }
-      }
-
-      parts.push(content);
+      parts.push(section.content);
     }
 
     return parts.join('\n\n');
@@ -123,46 +99,6 @@ export class ModuleMerger {
 
     return `# ${'-'.repeat(leftDashes)} ${header} ${'-'.repeat(rightDashes)}`;
   }
-
-  /* eslint-disable @typescript-eslint/class-methods-use-this -- helper method */
-
-  /**
-   * 为 Script Section 注入脚本开关占位符
-   * @param content Script Section 内容
-   * @param toggleName 开关参数名
-   */
-  private applyScriptToggle(content: string, toggleName: string): string {
-    const placeholder = `{{{${toggleName}}}}`;
-
-    return content
-      .split('\n')
-      .map(line => {
-        const trimmed = line.trim();
-
-        // 跳过空行和注释
-        if (!trimmed || trimmed.startsWith('#')) {
-          return line;
-        }
-
-        const leadingWhitespaceMatch = /^\s*/.exec(line);
-        const leadingWhitespace = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
-        const rest = line.slice(leadingWhitespace.length);
-
-        // 如果已经有占位符则跳过
-        if (rest.startsWith(placeholder)) {
-          return line;
-        }
-
-        // 跳过不包含 "=" 的行（非脚本规则行）
-        if (!rest.includes('=')) {
-          return line;
-        }
-
-        return `${leadingWhitespace}${placeholder}${rest}`;
-      })
-      .join('\n');
-  }
-  /* eslint-enable @typescript-eslint/class-methods-use-this */
 
   /**
    * 获取统计信息

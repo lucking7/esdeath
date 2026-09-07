@@ -97,6 +97,12 @@ pnpm run build
 - `pnpm run knip` checks for unused code and dependencies.
 - `pnpm run build` builds the rule artifacts only (GEOIP download + rule processing + web index generation); mirror sync, plugin conversion and module merging are separate scripts (`sync-mirrors`, `convert-plugins`, `merge-modules`) orchestrated by CI. It downloads upstream assets and writes generated files under `public/**`, so only run it when you intend to produce those artifacts.
 
+Module merging uses `Build/lib/module-merger/configs/pro-merge-config.yaml`. Every selected input must load and contain usable sections; missing inputs, undefined parameters, and unknown selection keys fail the command before publication. `--dry-run` performs the same validation without writing files. Outputs are staged in both destination directories, replaced by rename, and restored if a later replacement fails.
+
+Imported parameters retain their defaults and descriptions under per-source names. Script names are unique across sources and within each source; Panel references follow the renamed scripts. For the generated module script switches, leave the value **empty to enable** or enter **`#` to disable**. Use an empty value instead of `1` so a source module's own script switches can still disable individual scripts.
+
+The default configuration enables 47 of 48 entries. Tencent Video is explicitly disabled because its upstream is unmaintained and its required `CommonScript/replace-body.js` returns HTTP 404 (checked 2026-09-07). Restore its dependency and converted artifact before re-enabling it. DiDi retains its existing switch name and uses the current `滴滴去广告.sgmodule` filename.
+
 ## License
 
 [GNU Affero General Public License v3.0](./LICENSE)
